@@ -95,6 +95,9 @@
       imgs[i].style.display = 'none';
       // update src
       imgs[i].src = returnMiddleSourceSetValue(imgs[i].getAttribute('srcset')) || imgs[i].src;
+      // remove srcset and sizes in case they somehow foul up the display sizes
+      imgs[i].removeAttribute('srcset');
+      imgs[i].removeAttribute('sizes');
       // complete the repaint
       imgs[i].style.display = '';
     }
