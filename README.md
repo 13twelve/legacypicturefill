@@ -8,7 +8,7 @@ Arbitrarily fills an image src with the middle value in a srcset and adds an ima
 
 I love [picturefill](https://github.com/scottjehl/picturefill) and the fact it has such a wide browser support. But, maybe you want browsers it doesn't support to display images too.
 
-By default with srcset/<picture> we don't always specify an incredibly useful src for default. Sometimes we leave src empty, sometimes we make it a tiny [200 byte preview photo](https://code.facebook.com/posts/991252547593574/the-technology-behind-preview-photos/). These are totally fine, and advisable, for responsive images - especially as we don't want a large extra request in browsers that aren't true srcset supporters.
+By default with `srcset`/`<picture>` we don't always specify an incredibly useful src for default. Sometimes we leave `src` empty, sometimes we make it a tiny [200 byte preview photo](https://code.facebook.com/posts/991252547593574/the-technology-behind-preview-photos/). These are totally fine, and advisable, for responsive images - especially as we don't want a large extra request in browsers that aren't true `srcset` supporters.
 
 This leaves a problem for really old browsers in that they'll likely see no image at all. And they say a picture is worth a thousand words.
 
@@ -40,17 +40,17 @@ In the head of my documents I'm inlining small piece of JavaScript:
 
 This is to decide on the browser's spec, basically my version of the BBC's ['cutting the mustard test'](http://responsivenews.co.uk/post/18948466399/cutting-the-mustard). If the browser is deemed to be a HTML4 browser I load legacypicturefill and if its a HTML5 browser I load picturefill.
 
-*In projects I also load a HTML4 CSS and disable any other style sheets, keeping it simple here*
+*In projects I also load a HTML4 CSS and disable any other style sheets, keeping it simple here...*
 
 ## Why 'Arbitrarily'
 
-I didn't want to get into parsing styles, how the image was displayed, what you've actually put in your srcsets. So, the script just picks a middle value. Example:
+I didn't want to get into parsing styles, how the image was displayed, what you've actually put in your `srcset` etc. The script just picks a middle value and uses that. Example:
 
 ```html
 <img srcset="/path/to/image-1200.jpg 1200px, /path/to/image-800.jpg 800px, /path/to/image-400.jpg 400px">
 ```
 
-Here script sees 3 items in the srcset and plumps for the 2nd one. It doesn't understand the numbers, it just picks the middle one. And then sticks it into the img.src.
+Here script sees 3 items in the `srcset` and plumps for the 2nd one. It doesn't understand the numbers, it just picks the middle one. And then sticks it into the img.src.
 
 ## API
 
@@ -82,7 +82,7 @@ I've tested this in a variety of browsers:
 * IE 6+
 * Android 4+
 
-Safari 5 and below doesn't understand `<source>` inside of `<picture>` - so legacypicturefill only works on img with srcset.
+Safari 5 and below doesn't understand `<source>` inside of `<picture>` - so legacypicturefill only works on img with `srcset`.
 
 ## Filesize
 
