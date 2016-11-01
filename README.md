@@ -8,7 +8,7 @@ Arbitrarily fills an image src with the middle value in a srcset and adds an ima
 
 I love [picturefill](https://github.com/scottjehl/picturefill) and the fact it has such a wide browser support. But, maybe you want browsers it doesn't support to display images too.
 
-By default with srcset/<picture> we don't always specify an incredibly useful src for default. Sometimes we leave src empty, sometimes we make it a tiny (200 byte preview photo)[https://code.facebook.com/posts/991252547593574/the-technology-behind-preview-photos/]. These are totally fine, and advisable, for responsive images - especially as we don't want a large extra request in browsers that aren't true srcset supporters.
+By default with srcset/<picture> we don't always specify an incredibly useful src for default. Sometimes we leave src empty, sometimes we make it a tiny [200 byte preview photo](https://code.facebook.com/posts/991252547593574/the-technology-behind-preview-photos/). These are totally fine, and advisable, for responsive images - especially as we don't want a large extra request in browsers that aren't true srcset supporters.
 
 This leaves a problem for really old browsers in that they'll likely see no image at all. And they say a picture is worth a thousand words.
 
@@ -92,5 +92,5 @@ Safari 5 and below doesn't understand `<source>` inside of `<picture>` - so lega
 
 ## Inspirations
 
-* (picturefill)[https://github.com/scottjehl/picturefill]
-* (universal-ie6-css)[https://github.com/malarkey/universal-ie6-css]
+* [picturefill](https://github.com/scottjehl/picturefill)
+* [universal-ie6-css](https://github.com/malarkey/universal-ie6-css)
