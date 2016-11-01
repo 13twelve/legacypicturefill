@@ -47,7 +47,7 @@ This is to decide on the browser's spec, basically my version of the BBC's ['cut
 I didn't want to get into parsing styles, how the image was displayed, what you've actually put in your srcsets. So, the script just picks a middle value. Example:
 
 ```html
-&lt;img srcset="/path/to/image-1200.jpg 1200px, /path/to/image-800.jpg 800px, /path/to/image-400.jpg 400px"&gt;
+<img srcset="/path/to/image-1200.jpg 1200px, /path/to/image-800.jpg 800px, /path/to/image-400.jpg 400px">
 ```
 
 Here script sees 3 items in the srcset and plumps for the 2nd one. It doesn't understand the numbers, it just picks the middle one. And then sticks it into the img.src.
@@ -82,7 +82,7 @@ I've tested this in a variety of browsers:
 * IE 6+
 * Android 4+
 
-Safari 5 and below doesn't understand `&lt;source&gt;` inside of `&lt;picture&gt;` - so legacypicturefill only works on img with srcset.
+Safari 5 and below doesn't understand `<source>` inside of `<picture>` - so legacypicturefill only works on img with srcset.
 
 ## Filesize
 
