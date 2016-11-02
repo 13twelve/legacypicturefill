@@ -1,6 +1,6 @@
 # legacypicturefill
 
-v1.0.1 / 2016-11-02
+v1.0.2 / 2016-11-02
 
 Arbitrarily fills an image src with the middle value in a srcset and adds an image to picture elements, using and arbitrary src from the sources.
 
@@ -20,14 +20,13 @@ In the head of my documents I'm inlining small piece of JavaScript:
 
 ```javascript
 (function(d) {
-  var M13 = window.M13 || {},
-      w = window,
+  var w = window,
       h = d.getElementsByTagName('head')[0],
       s = d.createElement('script');
 
-  M13.browserSpec = (typeof d.querySelectorAll && 'addEventListener' in w && w.history.pushState && d.implementation.hasFeature('http://www.w3.org/TR/SVG11/feature#BasicStructure', '1.1')) ? 'html5' : 'html4';
+  var browserSpec = (typeof d.querySelectorAll && 'addEventListener' in w && w.history.pushState && d.implementation.hasFeature('http://www.w3.org/TR/SVG11/feature#BasicStructure', '1.1')) ? 'html5' : 'html4';
 
-  if(M13.browserSpec === 'html4') {
+  if(browserSpec === 'html4') {
     s.src = '//legacypicturefill.s3.amazonaws.com/legacypicturefill.min.js';
   } else {
     s.src = '//cdnjs.cloudflare.com/ajax/libs/picturefill/3.0.2/picturefill.min.js';
