@@ -1,4 +1,4 @@
-/*! legacypicturefill - v1.0.0 - 2016-11-01
+/*! legacypicturefill - v1.0.1 - 2016-11-02
  * https://github.com/13twelve/legacypicturefill
  * Copyright (c) 2016
  * License: MIT
@@ -34,6 +34,31 @@
       legacypicturefill(document);
     } else {
       setTimeout(waitForDocumentBody,200);
+    }
+  }
+
+  /**
+   * Force repaint on load of image for better resizing
+   * @private
+   */
+  function repaint() {
+    this.style.display = 'none';
+    this.style.display = '';
+  }
+
+  /**
+   * Update image
+   * @private
+   */
+  function update(img,src) {
+    if (src) {
+      // hide the image, to force a repaint on load - to size properly
+      img.onload = repaint;
+      // set src
+      img.src = src + "?" + new Date().getTime();
+      // remove srcset and sizes in case they somehow foul up the display sizes
+      img.removeAttribute('srcset');
+      img.removeAttribute('sizes');
     }
   }
 
@@ -75,7 +100,7 @@
             if (src) {
               // make an image, give it a src, clear the picture, append the new image
               var img = document.createElement('img');
-              img.src = src;
+              update(img,src);
               pictures[i].innerHTML = '';
               pictures[i].appendChild(img);
             }
@@ -91,15 +116,10 @@
     // loop images, update the src, or leave with the existing source if that fails
     imgs = context.getElementsByTagName('img');
     for(i = 0; i < imgs.length; i++){
-      // hide the image, to force a repaint (required so IE6 will size properly)
-      imgs[i].style.display = 'none';
-      // update src
-      imgs[i].src = returnMiddleSourceSetValue(imgs[i].getAttribute('srcset')) || imgs[i].src;
-      // remove srcset and sizes in case they somehow foul up the display sizes
-      imgs[i].removeAttribute('srcset');
-      imgs[i].removeAttribute('sizes');
-      // complete the repaint
-      imgs[i].style.display = '';
+      var srcset = imgs[i].getAttribute('srcset');
+      if (srcset) {
+        update(imgs[i], returnMiddleSourceSetValue(srcset));
+      }
     }
   }
 
