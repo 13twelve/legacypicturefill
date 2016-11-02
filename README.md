@@ -1,6 +1,6 @@
 # legacypicturefill
 
-v1.0.3 / 2016-11-02
+v1.0.4 / 2016-11-02
 
 Arbitrarily fills an image src with the middle value in a srcset and adds an image to picture elements, using and arbitrary src from the sources.
 
@@ -71,6 +71,8 @@ Where `el` is the DOM node you want to look inside.
 
 If you find a bug in legacypicturefill, please add it to [the issue tracker](https://github.com/13twelve/legacypicturefill/issues) or fork it, fix it and submit a pull request for it (👍).
 
+Tabs are 2 spaces, functions are commented, variables are camel case and its preferred that its easier to read than outright filesize being the smallest possible.
+
 ## Support
 
 I've tested this in a variety of browsers:
@@ -85,8 +87,8 @@ Safari 5 and below doesn't understand `<source>` inside of `<picture>` - so lega
 
 ## Filesize
 
-* ~4kb uncompressed
-* ~1kb minified
+* ~6kb uncompressed
+* ~2kb minified
 * ~1kb minified and gzipped
 
 ## Inspirations
