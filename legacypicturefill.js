@@ -1,4 +1,4 @@
-/*! legacypicturefill - v1.0.2 - 2016-11-02
+/*! legacypicturefill - v1.0.3 - 2016-11-02
  * https://github.com/13twelve/legacypicturefill
  * Copyright (c) 2016
  * License: MIT
@@ -19,8 +19,12 @@
       var re = new RegExp('^\\s+|\\s+$','gm');
       // split the string into an array
       var arr = str.split(',');
-      // pick the middle value, stripe white space, split again, pick first value, strip white space, return
-      return arr[Math.floor(arr.length/2)].replace(re,'').split(' ')[0].replace(re,'');
+      if (arr.length > 0) {
+        // pick the middle value, stripe white space, split again, pick first value, strip white space, return
+        return arr[Math.floor(arr.length/2)].replace(re,'').split(' ')[0].replace(re,'');
+      } else {
+        return false;
+      }
     }
     return false;
   }
@@ -121,8 +125,7 @@
           }
           // do we have any sources left?
           sources = pictures[i].getElementsByTagName('source');
-          if (sources) {
-            // generate a src from the srcset of the source
+          if (sources && sources.length > 0) {
             var src = returnMiddleSourceSetValue(sources[Math.floor(sources.length/2)].getAttribute('srcset'));
             if (src) {
               // make an image, give it a src, clear the picture, append the new image

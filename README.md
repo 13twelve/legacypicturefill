@@ -1,6 +1,6 @@
 # legacypicturefill
 
-v1.0.2 / 2016-11-02
+v1.0.3 / 2016-11-02
 
 Arbitrarily fills an image src with the middle value in a srcset and adds an image to picture elements, using and arbitrary src from the sources.
 
