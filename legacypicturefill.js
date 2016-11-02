@@ -1,4 +1,4 @@
-/*! legacypicturefill - v1.0.1 - 2016-11-02
+/*! legacypicturefill - v1.0.2 - 2016-11-02
  * https://github.com/13twelve/legacypicturefill
  * Copyright (c) 2016
  * License: MIT
@@ -26,14 +26,41 @@
   }
 
   /**
-   * Keeps checking if document.body exists in order to run the main function
+   * Keeps checking if document.readyState does not contain 'in' (loading)
+   * if it doesn't, runs the legacypicturefill func, otherwise checks again
    * @private
    */
-  function waitForDocumentBody() {
-    if (document.body) {
-      legacypicturefill(document);
+  function domReady() {
+    if (/in/.test(document.readyState)) {
+      setTimeout(domReady,9);
     } else {
-      setTimeout(waitForDocumentBody,200);
+      // IE9 and 10 can fire 'document.readyState === interaction' before its parsed the document
+      // hackily giving it 50ms to finish parsing
+      setTimeout(function(){
+        legacypicturefill(document);
+      },50);
+    }
+  }
+
+  /**
+   * FF < 3.6 shim for domready check
+   * Those early FF don't have the document.readyState, as it comes from IE
+   * This loop checks if readyState exists or not and hackily polyfills
+   * @private
+   */
+  function oldFFdomReadyShim() {
+    if (document.readyState === null && document.addEventListener) {
+      if (document.body) {
+        // document body has loaded but there is a chance the body isn't complete
+        // lets hackily give it 500ms to do this..
+        setTimeout(function(){
+          document.readyState = "complete";
+        },500);
+      } else {
+        // still loading, try again
+        document.readyState = "loading";
+        setTimeout(oldFFdomReadyShim,9);
+      }
     }
   }
 
@@ -127,6 +154,7 @@
   window.legacypicturefill = legacypicturefill;
 
   // go go go
-  setTimeout(waitForDocumentBody,200);
+  oldFFdomReadyShim();
+  domReady();
 
 })(document);
