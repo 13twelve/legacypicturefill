@@ -1,4 +1,4 @@
-/*! legacypicturefill - v1.0.4 - 2016-11-02
+/*! legacypicturefill - v1.0.5 - 2016-11-02
  * https://github.com/13twelve/legacypicturefill
  * Copyright (c) 2016
  * License: MIT
@@ -6,7 +6,6 @@
 (function(document) {
   // place holders
   var i, j, pictures, imgs, sources, timer, redraw;
-
   /**
    * Returns the middle value src from a srcset
    * @private
@@ -53,7 +52,7 @@
    * @private
    */
   function oldFFdomReadyShim() {
-    if (document.readyState === null && document.addEventListener) {
+    if (!document.readyState && document.addEventListener) {
       if (document.body) {
         // document body has loaded but there is a chance the body isn't complete
         // lets hackily give it 500ms to do this..
@@ -62,7 +61,6 @@
         },500);
       } else {
         // still loading, try again
-        document.readyState = "loading";
         setTimeout(oldFFdomReadyShim,9);
       }
     }
@@ -72,10 +70,9 @@
    * Force repaint on load of image for better resizing
    * @private
    */
-  function repaint(img) {
-    img = img || this;
-    img.style.display = 'none';
-    img.style.display = '';
+  function repaint() {
+    this.style.display = 'none';
+    this.style.display = '';
   }
 
   /**
@@ -162,7 +159,8 @@
     imgs = null;
     imgs = document.getElementsByTagName('img');
     for(i = 0; i < imgs.length; i++){
-      repaint(imgs[i]);
+      imgs[i].style.display = 'none';
+      imgs[i].style.display = '';
     }
   };
 
