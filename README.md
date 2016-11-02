@@ -1,6 +1,6 @@
 # legacypicturefill
 
-v1.0.5 / 2016-11-02
+v1.0.6 / 2016-11-02
 
 Arbitrarily fills an image src with the middle value in a srcset and adds an image to picture elements, using and arbitrary src from the sources.
 
@@ -38,6 +38,8 @@ In the head of my documents I'm inlining small piece of JavaScript:
 ```
 
 This is to decide on the browser's spec, basically my version of the BBC's ['cutting the mustard test'](http://responsivenews.co.uk/post/18948466399/cutting-the-mustard). If the browser is deemed to be a HTML4 browser I load legacypicturefill and if its a HTML5 browser I load picturefill.
+
+The S3 bucket is my personal S3 bucket, please use your own!
 
 *In projects I also load a HTML4 CSS and disable any other style sheets, keeping it simple here...*
 
@@ -90,6 +92,10 @@ Safari 5 and below doesn't understand `<source>` inside of `<picture>` - so lega
 * ~6kb uncompressed
 * ~2kb minified
 * ~1kb minified and gzipped
+
+## Author
+
+* [Mike Byrne](https://github.com/13twelve) - [@13twelve](https://twitter.com/13twelve)
 
 ## Inspirations
 

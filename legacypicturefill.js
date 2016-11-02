@@ -1,7 +1,8 @@
-/*! legacypicturefill - v1.0.5 - 2016-11-02
- * https://github.com/13twelve/legacypicturefill
+/*! legacypicturefill - v1.0.6 - 2016-11-02
+ * https://github.com/area17/legacypicturefill
  * Copyright (c) 2016
  * License: MIT
+ * Author: Mike Byrne @13twelve https://github.com/13twelve
  */
 (function(document) {
   // place holders
