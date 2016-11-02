@@ -1,11 +1,11 @@
-/*! legacypicturefill - v1.0.3 - 2016-11-02
+/*! legacypicturefill - v1.0.4 - 2016-11-02
  * https://github.com/13twelve/legacypicturefill
  * Copyright (c) 2016
  * License: MIT
  */
 (function(document) {
   // place holders
-  var i, j, pictures, imgs, sources, timer;
+  var i, j, pictures, imgs, sources, timer, redraw;
 
   /**
    * Returns the middle value src from a srcset
@@ -72,9 +72,10 @@
    * Force repaint on load of image for better resizing
    * @private
    */
-  function repaint() {
-    this.style.display = 'none';
-    this.style.display = '';
+  function repaint(img) {
+    img = img || this;
+    img.style.display = 'none';
+    img.style.display = '';
   }
 
   /**
@@ -155,6 +156,15 @@
 
   // expose
   window.legacypicturefill = legacypicturefill;
+
+  // force a repaint of the images on page load (so IE6 can do height auto properly..)
+  window.onload = function() {
+    imgs = null;
+    imgs = document.getElementsByTagName('img');
+    for(i = 0; i < imgs.length; i++){
+      repaint(imgs[i]);
+    }
+  };
 
   // go go go
   oldFFdomReadyShim();
