@@ -58,7 +58,7 @@
         // document body has loaded but there is a chance the body isn't complete
         // lets hackily give it 500ms to do this..
         setTimeout(function(){
-          document.readyState = "complete";
+          document.readyState = 'complete';
         },500);
       } else {
         // still loading, try again
@@ -85,7 +85,7 @@
       // hide the image, to force a repaint on load - to size properly
       img.onload = repaint;
       // set src
-      img.src = src + "?" + new Date().getTime();
+      img.src = src + '?' + new Date().getTime();
       // remove srcset and sizes in case they somehow foul up the display sizes
       img.removeAttribute('srcset');
       img.removeAttribute('sizes');
