@@ -71,7 +71,7 @@ Where `el` is the DOM node you want to look inside.
 
 ## Issues/Contributing/Discussion
 
-If you find a bug in legacypicturefill, please add it to [the issue tracker](https://github.com/13twelve/legacypicturefill/issues) or fork it, fix it and submit a pull request for it (👍).
+If you find a bug in legacypicturefill, please add it to [the issue tracker](https://github.com/area17/legacypicturefill/issues) or fork it, fix it and submit a pull request for it (👍).
 
 Tabs are 2 spaces, functions are commented, variables are camel case and its preferred that its easier to read than outright filesize being the smallest possible.
 
