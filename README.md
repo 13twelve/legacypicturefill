@@ -1,6 +1,6 @@
 # legacypicturefill
 
-v1.0.6 / 2016-11-02
+v1.0.7 / 2016-12-08
 
 Arbitrarily fills an image src with the middle value in a srcset and adds an image to picture elements, using and arbitrary src from the sources.
 
@@ -58,7 +58,7 @@ Here script sees 3 items in the `srcset` and plumps for the 2nd one. It doesn't 
 legacypicturefill exposes `legacypicturefill` globally. If you want to re-run the function:
 
 ```javascript
-legacypicturefill(document);
+legacypicturefill();
 ```
 
 Or if you are somehow using this on ajax'd content, you can change where the function looks:

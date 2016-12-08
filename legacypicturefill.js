@@ -1,4 +1,4 @@
-/*! legacypicturefill - v1.0.6 - 2016-11-02
+/*! legacypicturefill - v1.0.7 - 2016-12-08
  * https://github.com/area17/legacypicturefill
  * Copyright (c) 2016
  * License: MIT
@@ -41,7 +41,7 @@
       // IE9 and 10 can fire 'document.readyState === interaction' before its parsed the document
       // hackily giving it 50ms to finish parsing
       setTimeout(function(){
-        legacypicturefill(document);
+        legacypicturefill();
       },50);
     }
   }
@@ -69,6 +69,7 @@
 
   /**
    * Force repaint on load of image for better resizing
+   * hiding and showing the image forces the repaint
    * @private
    */
   function repaint() {
@@ -77,18 +78,59 @@
   }
 
   /**
-   * Update image
-   * @private
+   * adds the src, an onload event to force a repaint and removes attributes
+   * @param {Node} the DOM node to update
+   * @param {Src} str a src
    */
-  function update(img,src) {
-    if (src) {
-      // hide the image, to force a repaint on load - to size properly
+  function addSrc(img, src) {
+    if (img && src) {
+      // repaint on load
       img.onload = repaint;
-      // set src
+      // set src, with a cache buster to force the repaint
       img.src = src + '?' + new Date().getTime();
       // remove srcset and sizes in case they somehow foul up the display sizes
       img.removeAttribute('srcset');
       img.removeAttribute('sizes');
+      img.removeAttribute('data-srcset');
+      img.removeAttribute('data-src');
+    }
+  }
+
+  /**
+   * Update image - tries to grab data-srcset, srcset or data-src
+   * to use to add a src to the image
+   * @private
+   * @param {Node} the image to update
+   */
+  function updateImg(img) {
+    if (img) {
+      var srcset = img.getAttribute('data-srcset') || img.getAttribute('srcset');
+      var dataSrc = img.getAttribute('data-src');
+      if (srcset) {
+        addSrc(img, returnMiddleSourceSetValue(srcset));
+      } else if (dataSrc) {
+        addSrc(img, dataSrc);
+      } else {
+        // no data-srcset, no srcset and no data-src
+        // hopefully the image has a src and displays something...
+      }
+    }
+  }
+
+  /**
+   * If not sources are found in a <picture>, we look to any img's there
+   * @private
+   * @param {Node} the picture to look inside
+   */
+  function findImagesInPicture(picture) {
+    // grab images inside the picture
+    imgs = picture.getElementsByTagName('img');
+    for(j = 0; j < imgs.length; j++){
+      if (j === 0) {
+        updateImg(imgs[j]);
+      } else {
+        imgs[j].parentNode.removeChild(imgs[j]);
+      }
     }
   }
 
@@ -98,57 +140,45 @@
    * @param {Node} context which element you want to check.
    */
   function legacypicturefill(context) {
+    context = context || document;
     // grab pictures and loop
     pictures = context.getElementsByTagName('picture');
     for(i = 0; i < pictures.length; i++){
-      // grab images inside the picture
-      imgs = pictures[i].getElementsByTagName('img');
-      for(j = 0; j < imgs.length; j++){
-        // if they don't have a src or a srcset, remove them
-        if (!imgs[j].src && !imgs[j].srcset) {
-          imgs[j].parentNode.removeChild(imgs[j]);
-        }
-      }
-      // grab images again
-      imgs = pictures[i].getElementsByTagName('img');
-      // if none left, lets try adding one, but this time with a src
-      if (imgs.length === 0) {
-        // grab sources
-        sources = pictures[i].getElementsByTagName('source');
-        if (sources) {
-          // lets discount any sources that are obviously going to upset legacy browsers, such as SVG
-          for(j = 0; j < sources.length; j++) {
-            if (sources[j].getAttribute('type') && sources[j].getAttribute('type') === 'image/svg+xml') {
-              sources[j].parentNode.removeChild(sources[j]);
-            }
+      // grab sources
+      sources = pictures[i].getElementsByTagName('source');
+      if (sources) {
+        // lets discount any sources that are obviously going to upset legacy browsers, such as SVG
+        for(j = 0; j < sources.length; j++) {
+          if (sources[j].getAttribute('type') && sources[j].getAttribute('type') === 'image/svg+xml') {
+            sources[j].parentNode.removeChild(sources[j]);
           }
-          // do we have any sources left?
-          sources = pictures[i].getElementsByTagName('source');
-          if (sources && sources.length > 0) {
-            var src = returnMiddleSourceSetValue(sources[Math.floor(sources.length/2)].getAttribute('srcset'));
-            if (src) {
-              // make an image, give it a src, clear the picture, append the new image
-              var img = document.createElement('img');
-              update(img,src);
-              pictures[i].innerHTML = '';
-              pictures[i].appendChild(img);
-            }
+        }
+        // do we have any sources left?
+        sources = pictures[i].getElementsByTagName('source');
+        if (sources && sources.length > 0) {
+          var midSource = sources[Math.floor(sources.length/2)];
+          var src = returnMiddleSourceSetValue(midSource.getAttribute('data-srcset') || midSource.getAttribute('srcset'));
+          if (src) {
+            // make an image, give it a src, clear the picture, append the new image
+            var img = document.createElement('img');
+            addSrc(img, src);
+            pictures[i].innerHTML = '';
+            pictures[i].appendChild(img);
           } else {
-            // no sources, we're stuck as we have nothing to choose from..
+            // no src, lets try any img in the picture
+            findImagesInPicture(pictures[i]);
           }
         } else {
-          // no sources, we're stuck as we have nothing to choose from..
+          // no sources, lets try any img in the picture
+          findImagesInPicture(pictures[i]);
         }
       }
     }
 
     // loop images, update the src, or leave with the existing source if that fails
     imgs = context.getElementsByTagName('img');
-    for(i = 0; i < imgs.length; i++){
-      var srcset = imgs[i].getAttribute('srcset');
-      if (srcset) {
-        update(imgs[i], returnMiddleSourceSetValue(srcset));
-      }
+    for(i = 0; i < imgs.length; i++) {
+      updateImg(imgs[i]);
     }
   }
 
